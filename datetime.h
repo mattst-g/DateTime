@@ -7,6 +7,15 @@
 
 
 
+struct ymdhns
+{
+	int yy;
+	int mm;
+	int dd;
+	int hh;
+	int nn;
+	int ss;
+};
  
 
 class datetime
@@ -22,8 +31,8 @@ class datetime
 											"August", "September", "October", "November", "December" };
 		time_t value = 0;
 
-		// void decode(int &year, int &month, int &day, int &hour, int &minute, int &second);	
-		// void encode(const int year, const int month, const int day, const int hour, const int minute, const int second);
+		void decode(const time_t dt, ymdhns & decoded);	
+		time_t encode(const int year, const ymdhns & toencode);
 
 	public:
 
