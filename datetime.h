@@ -32,7 +32,7 @@ class datetime
 		time_t value = 0;
 
 		void decode(const time_t dt, ymdhns & decoded);	
-		time_t encode(const int year, const ymdhns & toencode);
+		time_t encode(const ymdhns & toencode);
 
 	public:
 
@@ -71,9 +71,9 @@ class datetime
 		// void fromstring(const std::string datetimestring);
 		// void fromstring(const std::string datetimestring, std::function() ); // with lambda adapter
 
-		// void setdatetime(int year, int month, int day, int hour, int minute, int second);
-		// void setdate(int year, int month, int day);
-		// void settime(int hour, int minute, int second);
+	    void setdatetime(int year, int month, int day, int hour, int minute, int second);
+		void setdate(int year, int month, int day);
+		void settime(int hour, int minute, int second);
 
 		// int dayofweek() const;
 		// std::string dayofweek() const;

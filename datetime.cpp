@@ -2,7 +2,7 @@
 
 
 
-void datetime::decode(const time_t dt, ymdhns & decoded)
+void datetime::decode(const time_t dt, ymdhns &decoded)
 {
 	const tm * t = localtime(&dt);
 	decoded.yy = t->tm_year;
@@ -13,7 +13,7 @@ void datetime::decode(const time_t dt, ymdhns & decoded)
 	decoded.ss = t->tm_sec;
 }
 
-time_t datetime::encode(const int year, const ymdhns & toencode)
+time_t datetime::encode(const ymdhns &toencode)
 {
 	tm whenStart;
 
@@ -46,11 +46,11 @@ void datetime::yesterday()
  	ymdhns newdate;
  	decode(temp, newdate);
 
- 	newdate.hh=currenttime.hh;
- 	newdate.nn=currenttime.nn;
- 	newdate.ss=currenttime.ss;
+ 	newdate.hh = currenttime.hh;
+ 	newdate.nn = currenttime.nn;
+ 	newdate.ss = currenttime.ss;
 
- 	encode(value, newdate);
+ 	value = encode(newdate);
 }
 
 void datetime::tomorrow()
@@ -64,9 +64,43 @@ void datetime::tomorrow()
  	ymdhns newdate;
  	decode(temp, newdate);
 
- 	newdate.hh=currenttime.hh;
- 	newdate.nn=currenttime.nn;
- 	newdate.ss=currenttime.ss;
+ 	newdate.hh = currenttime.hh;
+ 	newdate.nn = currenttime.nn;
+ 	newdate.ss = currenttime.ss;
 
- 	encode(value, newdate);
+ 	value = encode( newdate);
+}
+
+
+void datetime::setdatetime(int year, int month, int day, int hour, int minute, int second)
+{
+	ymdhns currenttime;
+ 	decode(value, currenttime);
+ 	currenttime.yy = year;
+ 	currenttime.mm = month;
+ 	currenttime.dd = day; 	
+ 	currenttime.hh = hour;
+ 	currenttime.nn = minute;
+ 	currenttime.ss = second;
+ 	value = encode(currenttime);
+}
+
+void datetime::setdate(int year, int month, int day)
+{
+	ymdhns currenttime;
+ 	decode(value, currenttime);
+ 	currenttime.yy = year;
+ 	currenttime.mm = month;
+ 	currenttime.dd = day; 	
+ 	value = encode(currenttime);
+}
+
+void datetime::settime(int hour, int minute, int second)
+{
+	ymdhns currenttime;
+ 	decode(value, currenttime);
+ 	currenttime.hh = hour;
+ 	currenttime.nn = minute;
+ 	currenttime.ss = second;
+ 	value = encode(currenttime);
 }
