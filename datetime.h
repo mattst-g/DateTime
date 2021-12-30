@@ -49,10 +49,11 @@ class datetime
 
 		// void onchangeevent(); // callback lambda
 
-		void now();	
-		
-		// void yesterday();
-		// void tomorrow();
+		void now();			
+		void yesterday();
+		void tomorrow();
+
+
 		// void midnight();
 		// void noon();
 		// void janfirst(int year = 0);	
