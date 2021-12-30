@@ -1,8 +1,6 @@
 #ifndef DATETIME_H
 #define DATETIME_H
 
-efine TIMEFUNC_H
-
 #include <ctime>
 #include <iostream>
 #include <cstring>
