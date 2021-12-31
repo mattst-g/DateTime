@@ -28,13 +28,23 @@ time_t datetime::encode(const ymdhns &toencode)
  	return mktime(&whenStart);
 }
 
-
+/**
+ * Gets Current Time.
+ *
+ * 
+ * @return The Current Time
+ */
 void datetime::now()
 {
 	value = time(nullptr);	
 }
 
-
+/**
+ * Gets current time one day in the past.
+ *
+ * 
+ * @return The current time one day in the past.
+ */
 void datetime::yesterday()
 {	
  	ymdhns currenttime;
@@ -53,6 +63,12 @@ void datetime::yesterday()
  	value = encode(newdate);
 }
 
+/**
+ * Gets current time on day in the future.
+ *
+ * 
+ * @return The current time on day in the future
+ */
 void datetime::tomorrow()
 {	
 	ymdhns currenttime;
@@ -71,7 +87,17 @@ void datetime::tomorrow()
  	value = encode( newdate);
 }
 
-
+/**
+ * Sets the the date time
+ *
+ * @param year 
+ * @param month
+ * @param day
+ * @param hour 
+ * @param minute 
+ * @param second 
+ * @return Returns the current date time.
+ */
 void datetime::setdatetime(int year, int month, int day, int hour, int minute, int second)
 {
 	ymdhns currenttime;
@@ -85,6 +111,14 @@ void datetime::setdatetime(int year, int month, int day, int hour, int minute, i
  	value = encode(currenttime);
 }
 
+/**
+ * Sets the the date
+ *
+ * @param year 
+ * @param month
+ * @param day
+ * @return Returns the current date.
+ */
 void datetime::setdate(int year, int month, int day)
 {
 	ymdhns currenttime;
@@ -95,6 +129,14 @@ void datetime::setdate(int year, int month, int day)
  	value = encode(currenttime);
 }
 
+/**
+ * Sets the the time
+ *
+ * @param hour 
+ * @param minute 
+ * @param second 
+ * @return Returns the current time.
+ */
 void datetime::settime(int hour, int minute, int second)
 {
 	ymdhns currenttime;
