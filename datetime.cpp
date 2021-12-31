@@ -26,12 +26,10 @@ time_t datetime::encode(const ymdhns &toencode)
  	return mktime(&whenStart);
 }
 
-
 void datetime::now()
 {
 	value = time(nullptr);	
 }
-
 
 void datetime::yesterday()
 {	
@@ -50,7 +48,6 @@ void datetime::yesterday()
 
  	value = encode(newdate);
 }
-
 
 void datetime::tomorrow()
 {	
@@ -111,6 +108,49 @@ int datetime::dayofweek() const
     const tm * t = localtime(&value);
     return t->tm_wday;
 }
+
+std::string datetime::dayofweekstring() const
+{
+    const tm * t = localtime(&value);
+    return DaysOfWeek[t->tm_wday];
+}
+
+int datetime::dayofyear() const
+{
+    const tm * t = localtime(&value);
+    return t->tm_yday + 1;
+}
+
+int datetime::weekofyear() const
+{
+    const int DAYS_PER_WEEK = 7 ;
+    const tm * t = localtime(&value);
+    const int wday = t->tm_wday ;
+    const int delta = wday ? wday-1 : DAYS_PER_WEEK-1 ;
+
+    return ( t->tm_yday + DAYS_PER_WEEK - delta ) / DAYS_PER_WEEK ;
+}
+
+void datetime::addseconds(int count)
+{
+    value += count;
+}
+
+void datetime::addminutes(int count)
+{
+    value = value +(SecondsPerMinute*count);
+}
+
+void datetime::addhours(int count)
+{
+    value = value +(SecondsPerHour*count);
+}
+
+void datetime::adddays(int count)
+{
+    value = value +(SecondsPerDay*count);
+}
+
 
 std::string datetime::tostring()  
 {    
@@ -211,4 +251,32 @@ void datetime::settime(const int hour,const int minute,const int second)
  	currenttime.nn = minute;
  	currenttime.ss = second;
  	value = encode(currenttime);
+}
+
+void datetime::setfirstdayofmonth()
+{
+    ymdhns currenttime;
+    decode(value, currenttime);    
+    currenttime.dd = 1;
+    value = encode(currenttime);
+}
+
+void datetime::setlastdayofmonth()
+{
+    ymdhns currenttime;
+    decode(value, currenttime);    
+    if(currenttime.mm == 1 && isleapyear())
+        currenttime.dd = DaysOfMonth[currenttime.mm] + 1;
+    else
+        currenttime.dd = DaysOfMonth[currenttime.mm];
+    value = encode(currenttime);
+}
+
+bool datetime::isleapyear()
+{
+    ymdhns currenttime;
+    decode(value, currenttime);    
+    if (currenttime.yy % 4 != 0) return false;
+    if (currenttime.yy % 100 != 0) return true;
+    return (currenttime.yy % 400) == 0;
 }

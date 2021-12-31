@@ -79,19 +79,19 @@ class datetime
 		void settime(const int hour,const int minute,const int second);
 
 		int dayofweek() const;
-		// std::string dayofweek() const;
-		// int dayofyear() const;
-		// int weekofyear() const;
+		std::string dayofweekstring() const;
+		int dayofyear() const;
+		int weekofyear() const;
 
-		// void addseconds(int count = 1);
-		// void addminutes(int count = 1);
-		// void addhours(int count = 1);
-		// void adddays(int count = 1);
+		void addseconds(int count = 1);
+		void addminutes(int count = 1);
+		void addhours(int count = 1);
+		void adddays(int count = 1);
 
-		// void setfirstdayofmonth();
-		// void setlastdayofmonth();
+		void setfirstdayofmonth();
+		void setlastdayofmonth();
 
-		// bool isleapyear() const;
+		bool isleapyear();
 
 		// bool samedatetime(const datetime &other) const;
 		// bool samedate(const datetime &other) const;
