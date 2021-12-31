@@ -4,7 +4,7 @@
 #include <ctime>
 #include <iostream>
 #include <cstring>
-
+#include <sstream>
 
 
 struct ymdhns
@@ -16,20 +16,22 @@ struct ymdhns
 	int nn;
 	int ss;
 };
+
+const int SecondsPerMinute = 60;
+const int SecondsPerHour = 3600;
+const int SecondsPerDay = 86400;
+
+const int DaysOfMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+const std::string DaysOfWeek[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+const std::string MonthsOfYear[] = { "January", "February", "March", "April", "May", "June", "July",
+									"August", "September", "October", "November", "December" };
  
-typedef void(*fptr)(const std::string datetimestring, ymdhns & decoded) FfromString;
+typedef void(*funcfromstring)(const std::string datetimestring, ymdhns & decoded);
 
 class datetime
 {
 	private:
-		constexpr int SecondsPerMinute = 60;
-		constexpr int SecondsPerHour = 3600;
-		constexpr int SecondsPerDay = 86400;
-
-		constexpr int DaysOfMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-		constexpr std::string DaysOfWeek[] = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-		constexpr std::string MonthsOfYear[] = { "January", "February", "March", "April", "May", "June", "July",
-											"August", "September", "October", "November", "December" };
+	
 		time_t value = 0;
 
 		void decode(const time_t dt, ymdhns & decoded);	
@@ -68,15 +70,15 @@ class datetime
 		void noon();
 		void janfirst(int year = 0);	
 
-		std::string tostring() const;
+		std::string tostring()  ;
 		void fromstring(const std::string datetimestring);
-		void fromstring(const std::string datetimestring, FfromString func); // with lambda adapter
+		void fromstring(const std::string datetimestring, funcfromstring func); // with lambda adapter
 
 	    void setdatetime(const int year,const  int month,const  int day,const  int hour,const  int minute,const  int second);
 		void setdate(const int year, const int month, const int day);
 		void settime(const int hour,const int minute,const int second);
 
-		// int dayofweek() const;
+		int dayofweek() const;
 		// std::string dayofweek() const;
 		// int dayofyear() const;
 		// int weekofyear() const;

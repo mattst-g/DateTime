@@ -5,8 +5,8 @@
 void datetime::decode(const time_t dt, ymdhns &decoded)
 {
 	const tm * t = localtime(&dt);
-	decoded.yy = t->tm_year;
-	decoded.mm = t->tm_mon;
+	decoded.yy = t->tm_year + 1900;
+	decoded.mm = t->tm_mon + 1;
 	decoded.dd = t->tm_mday;
 	decoded.hh = t->tm_hour;
 	decoded.nn = t->tm_min;
@@ -16,7 +16,6 @@ void datetime::decode(const time_t dt, ymdhns &decoded)
 time_t datetime::encode(const ymdhns &toencode)
 {
 	tm whenStart;
-
     whenStart.tm_year = toencode.yy - 1900;
     whenStart.tm_mon = toencode.mm - 1;
     whenStart.tm_mday = toencode.dd;
@@ -24,27 +23,16 @@ time_t datetime::encode(const ymdhns &toencode)
     whenStart.tm_min = toencode.nn;
     whenStart.tm_sec = toencode.ss;
     whenStart.tm_isdst = -1;
-
  	return mktime(&whenStart);
 }
 
-/**
- * Gets Current Time.
- *
- * 
- * @return The Current Time
- */
+
 void datetime::now()
 {
 	value = time(nullptr);	
 }
 
-/**
- * Gets current time one day in the past.
- *
- * 
- * @return The current time one day in the past.
- */
+
 void datetime::yesterday()
 {	
  	ymdhns currenttime;
@@ -63,12 +51,7 @@ void datetime::yesterday()
  	value = encode(newdate);
 }
 
-/**
- * Gets current time on day in the future.
- *
- * 
- * @return The current time on day in the future
- */
+
 void datetime::tomorrow()
 {	
 	ymdhns currenttime;
@@ -123,24 +106,46 @@ void datetime::janfirst(int year)
  	value = encode(currenttime);
 }
 
-std::string datetime::tostring() const
+int datetime::dayofweek() const
 {
-	const tm * t = localtime(&value);
-	char *tm_str = asctime(t);
-	return tm_str;
+    const tm * t = localtime(&value);
+    return t->tm_wday;
+}
+
+std::string datetime::tostring()  
+{    
+    std::stringstream ss;
+	ymdhns currenttime;
+    decode(value, currenttime);
+    
+    ss << DaysOfWeek[dayofweek()].substr(0,3) << " ";
+    ss << MonthsOfYear[currenttime.mm-1].substr(0,3) << " ";
+    if(currenttime.dd<10) ss << ' ';
+    ss << currenttime.dd << " ";
+    if(currenttime.hh<10) ss << '0';
+    ss << currenttime.hh;
+    ss << ':';
+    if(currenttime.nn<10) ss << '0';
+    ss << currenttime.nn;
+    ss << ':';
+    if(currenttime.ss<10) ss << '0';
+    ss << currenttime.ss;
+    ss << " " << currenttime.yy;
+
+	return ss.str();
 }
 
 void datetime::fromstring(const std::string datetimestring)
 {
     ymdhns currenttime;
-    currentime.mm = 0;
+    currenttime.mm = 0;
     tm whenStart;
 
     char dstr[16];
     char mstr[16];
 	
 	// Wed Dec 29 20:28:23 2021
-    sscanf(str.c_str(), "%s %s %d %d:%d:%d %d", dstr, mstr, &currenttime.dd, &currenttime.hh, &currenttime.nn, &currenttime.ss, &currenttime.yy);
+    sscanf(datetimestring.c_str(), "%s %s %d %d:%d:%d %d", dstr, mstr, &currenttime.dd, &currenttime.hh, &currenttime.nn, &currenttime.ss, &currenttime.yy);
 
     for(int idx=0; idx<12;++idx)
     {    	
@@ -159,35 +164,21 @@ void datetime::fromstring(const std::string datetimestring)
     whenStart.tm_sec = currenttime.ss;
     whenStart.tm_isdst = -1;
 
-    return mktime(&whenStart);
+    value = mktime(&whenStart);
 }
 
 
-void datetime::fromstring(const std::string datetimestring, FfromString func)
+void datetime::fromstring(const std::string datetimestring, funcfromstring func)
 {
 	if(func != nullptr)
 	{
 		ymdhns result;
 		func(datetimestring,result);
 		value = encode(result);
-	}
-	else
-	{
-		value = fromstring(datetimestring);
-	}
+	}	
 }
 
-/**
- * Sets the the date time
- *
- * @param year 
- * @param month
- * @param day
- * @param hour 
- * @param minute 
- * @param second 
- * @return Returns the current date time.
- */
+
 void datetime::setdatetime(const int year,const int month,const int day, const int hour,const int minute,const int second)
 {
 	ymdhns currenttime;
@@ -201,14 +192,7 @@ void datetime::setdatetime(const int year,const int month,const int day, const i
  	value = encode(currenttime);
 }
 
-/**
- * Sets the the date
- *
- * @param year 
- * @param month
- * @param day
- * @return Returns the current date.
- */
+
 void datetime::setdate(const int year,const int month,const int day)
 {
 	ymdhns currenttime;
@@ -219,14 +203,6 @@ void datetime::setdate(const int year,const int month,const int day)
  	value = encode(currenttime);
 }
 
-/**
- * Sets the the time
- *
- * @param hour 
- * @param minute 
- * @param second 
- * @return Returns the current time.
- */
 void datetime::settime(const int hour,const int minute,const int second)
 {
 	ymdhns currenttime;
