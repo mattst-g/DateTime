@@ -87,8 +87,6 @@ void datetime::tomorrow()
  	value = encode( newdate);
 }
 
-<<<<<<< HEAD
-
 void datetime::midnight()
 {
 	ymdhns currenttime;
@@ -179,8 +177,6 @@ void datetime::fromstring(const std::string datetimestring, FfromString func)
 	}
 }
 
-void datetime::setdatetime(const int year,const int month,const int day, const int hour,const int minute,const int second)
-=======
 /**
  * Sets the the date time
  *
@@ -192,8 +188,7 @@ void datetime::setdatetime(const int year,const int month,const int day, const i
  * @param second 
  * @return Returns the current date time.
  */
-void datetime::setdatetime(int year, int month, int day, int hour, int minute, int second)
->>>>>>> 79a20f934cb5d25c0b6aa0404aea0f9a49b10301
+void datetime::setdatetime(const int year,const int month,const int day, const int hour,const int minute,const int second)
 {
 	ymdhns currenttime;
  	decode(value, currenttime);
@@ -206,9 +201,6 @@ void datetime::setdatetime(int year, int month, int day, int hour, int minute, i
  	value = encode(currenttime);
 }
 
-<<<<<<< HEAD
-void datetime::setdate(const int year,const int month,const int day)
-=======
 /**
  * Sets the the date
  *
@@ -217,8 +209,7 @@ void datetime::setdate(const int year,const int month,const int day)
  * @param day
  * @return Returns the current date.
  */
-void datetime::setdate(int year, int month, int day)
->>>>>>> 79a20f934cb5d25c0b6aa0404aea0f9a49b10301
+void datetime::setdate(const int year,const int month,const int day)
 {
 	ymdhns currenttime;
  	decode(value, currenttime);
@@ -228,9 +219,6 @@ void datetime::setdate(int year, int month, int day)
  	value = encode(currenttime);
 }
 
-<<<<<<< HEAD
-void datetime::settime(const int hour,const int minute,const int second)
-=======
 /**
  * Sets the the time
  *
@@ -239,8 +227,7 @@ void datetime::settime(const int hour,const int minute,const int second)
  * @param second 
  * @return Returns the current time.
  */
-void datetime::settime(int hour, int minute, int second)
->>>>>>> 79a20f934cb5d25c0b6aa0404aea0f9a49b10301
+void datetime::settime(const int hour,const int minute,const int second)
 {
 	ymdhns currenttime;
  	decode(value, currenttime);
