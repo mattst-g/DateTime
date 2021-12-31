@@ -17,6 +17,7 @@ struct ymdhns
 	int ss;
 };
  
+typedef void(*fptr)(const std::string datetimestring, ymdhns & decoded) FfromString;
 
 class datetime
 {
@@ -63,17 +64,17 @@ class datetime
 		void tomorrow();
 
 
-		// void midnight();
-		// void noon();
-		// void janfirst(int year = 0);	
+		void midnight();
+		void noon();
+		void janfirst(int year = 0);	
 
-		// std::string tostring() const;
-		// void fromstring(const std::string datetimestring);
-		// void fromstring(const std::string datetimestring, std::function() ); // with lambda adapter
+		std::string tostring() const;
+		void fromstring(const std::string datetimestring);
+		void fromstring(const std::string datetimestring, FfromString func); // with lambda adapter
 
-	    void setdatetime(int year, int month, int day, int hour, int minute, int second);
-		void setdate(int year, int month, int day);
-		void settime(int hour, int minute, int second);
+	    void setdatetime(const int year,const  int month,const  int day,const  int hour,const  int minute,const  int second);
+		void setdate(const int year, const int month, const int day);
+		void settime(const int hour,const int minute,const int second);
 
 		// int dayofweek() const;
 		// std::string dayofweek() const;

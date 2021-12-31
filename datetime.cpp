@@ -72,7 +72,97 @@ void datetime::tomorrow()
 }
 
 
-void datetime::setdatetime(int year, int month, int day, int hour, int minute, int second)
+void datetime::midnight()
+{
+	ymdhns currenttime;
+ 	decode(value, currenttime);
+ 	
+ 	currenttime.hh = 0;
+ 	currenttime.nn = 0;
+ 	currenttime.ss = 0;
+
+ 	value = encode(currenttime);
+}
+
+void datetime::noon()
+{
+	ymdhns currenttime;
+ 	decode(value, currenttime);
+ 	
+ 	currenttime.hh = 12;
+ 	currenttime.nn = 0;
+ 	currenttime.ss = 0;
+
+ 	value = encode(currenttime);
+}
+
+void datetime::janfirst(int year)
+{
+	ymdhns currenttime;
+ 	decode(value, currenttime);
+
+ 	currenttime.mm = 1;
+ 	currenttime.dd = 1;
+ 	if(year>0) currenttime.yy = year;
+
+ 	value = encode(currenttime);
+}
+
+std::string datetime::tostring() const
+{
+	const tm * t = localtime(&value);
+	char *tm_str = asctime(t);
+	return tm_str;
+}
+
+void datetime::fromstring(const std::string datetimestring)
+{
+    ymdhns currenttime;
+    currentime.mm = 0;
+    tm whenStart;
+
+    char dstr[16];
+    char mstr[16];
+	
+	// Wed Dec 29 20:28:23 2021
+    sscanf(str.c_str(), "%s %s %d %d:%d:%d %d", dstr, mstr, &currenttime.dd, &currenttime.hh, &currenttime.nn, &currenttime.ss, &currenttime.yy);
+
+    for(int idx=0; idx<12;++idx)
+    {    	
+    	if(strncmp(mstr, MonthsOfYear[idx].c_str(), 3) ==0)
+    	{
+    		currenttime.mm = idx;
+    		break;
+    	}
+    }
+
+    whenStart.tm_year = currenttime.yy - 1900;
+    whenStart.tm_mon = currenttime.mm;
+    whenStart.tm_mday = currenttime.dd;
+    whenStart.tm_hour = currenttime.hh;
+    whenStart.tm_min = currenttime.nn;
+    whenStart.tm_sec = currenttime.ss;
+    whenStart.tm_isdst = -1;
+
+    return mktime(&whenStart);
+}
+
+
+void datetime::fromstring(const std::string datetimestring, FfromString func)
+{
+	if(func != nullptr)
+	{
+		ymdhns result;
+		func(datetimestring,result);
+		value = encode(result);
+	}
+	else
+	{
+		value = fromstring(datetimestring);
+	}
+}
+
+void datetime::setdatetime(const int year,const int month,const int day, const int hour,const int minute,const int second)
 {
 	ymdhns currenttime;
  	decode(value, currenttime);
@@ -85,7 +175,7 @@ void datetime::setdatetime(int year, int month, int day, int hour, int minute, i
  	value = encode(currenttime);
 }
 
-void datetime::setdate(int year, int month, int day)
+void datetime::setdate(const int year,const int month,const int day)
 {
 	ymdhns currenttime;
  	decode(value, currenttime);
@@ -95,7 +185,7 @@ void datetime::setdate(int year, int month, int day)
  	value = encode(currenttime);
 }
 
-void datetime::settime(int hour, int minute, int second)
+void datetime::settime(const int hour,const int minute,const int second)
 {
 	ymdhns currenttime;
  	decode(value, currenttime);
