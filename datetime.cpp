@@ -337,3 +337,157 @@ int datetime::second()
     return currenttime.ss;
 }
 
+bool datetime::issunday()
+{
+    int d = dayofweek();
+    return d == 0;
+}
+
+bool datetime::ismonday() 
+{
+    int d = dayofweek();
+    return d == 1;
+}
+
+bool datetime::istuesday()
+{
+    int d = dayofweek();
+    return d == 2;
+}
+
+bool datetime::iswednesday()
+{
+    int d = dayofweek();
+    return d == 3;
+}
+
+bool datetime::isthursday()
+{
+    int d = dayofweek();
+    return d == 4;
+}
+
+bool datetime::isfriday()
+{
+    int d = dayofweek();
+    return d == 5;
+}
+
+bool datetime::issaturday()
+{
+    int d = dayofweek();
+    return d == 6;
+}
+
+
+
+bool datetime::samedatetime(const datetime &other)
+{
+    return other.value == value;
+}
+
+bool datetime::samedate(const datetime &other)
+{
+    ymdhns currenttime1;
+    ymdhns currenttime2;
+    decode(value, currenttime1);
+    decode(other.value, currenttime2);
+    
+    return ((currenttime1.yy==currenttime2.yy) && (currenttime1.mm==currenttime2.mm) && (currenttime1.dd==currenttime2.dd));
+}
+
+bool datetime::sametime(const datetime &other)
+{
+    ymdhns currenttime1;
+    ymdhns currenttime2;
+    decode(value, currenttime1);
+    decode(other.value, currenttime2);
+    
+    return ((currenttime1.hh==currenttime2.hh) && (currenttime1.nn==currenttime2.nn) && (currenttime1.ss==currenttime2.ss));
+}
+
+bool datetime::samehour(const datetime &other)
+{
+    ymdhns currenttime1;
+    ymdhns currenttime2;
+    decode(value, currenttime1);
+    decode(other.value, currenttime2);
+    
+    return (currenttime1.hh==currenttime2.hh);
+}
+
+bool datetime::sameminute(const datetime &other)
+{
+    ymdhns currenttime1;
+    ymdhns currenttime2;
+    decode(value, currenttime1);
+    decode(other.value, currenttime2);
+    
+    return (currenttime1.nn==currenttime2.nn);
+}
+
+bool datetime::samesecond(const datetime &other)
+{
+    ymdhns currenttime1;
+    ymdhns currenttime2;
+    decode(value, currenttime1);
+    decode(other.value, currenttime2);
+    
+    return (currenttime1.ss==currenttime2.ss);
+}
+
+int datetime::secondsapart(const datetime &other)
+{
+    return other.value - value;
+}
+
+int datetime::minutesapart(const datetime &other)
+{
+    int v = other.value - value;
+
+    return v != 0 ? (v / SecondsPerMinute) : 0 ;
+}
+
+int datetime::hoursapart(const datetime &other)
+{
+    int v = other.value - value;
+
+    return v != 0 ? v / SecondsPerHour : 0 ;
+}
+
+int datetime::daysapart(const datetime &other)
+{
+    int v = other.value - value;
+
+    return v != 0 ? v / SecondsPerDay : 0 ;
+}
+
+void datetime::difference(const datetime &other, int &days, int &hours, int &minutes, int &seconds)
+{
+    int sec = abs(int(other.value - value));
+
+    days = 0;
+    minutes = 0;
+    hours = 0;
+    seconds = 0;
+
+    if(sec>=SecondsPerDay)
+    {
+        days = sec / SecondsPerDay;
+        sec = sec - (days*SecondsPerDay); // remainder in sec
+    }
+
+    if(sec>=SecondsPerHour)
+    {
+        hours = sec / SecondsPerHour;
+        sec = sec - (hours*SecondsPerHour); // remainder in sec 
+    }
+    
+    if(sec>=SecondsPerMinute)
+    {
+        minutes = sec / SecondsPerMinute;
+        sec = sec - (minutes*SecondsPerMinute); // remainder in sec 
+    }
+
+    seconds = sec;
+}

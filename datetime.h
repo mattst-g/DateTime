@@ -42,23 +42,14 @@ class datetime
 		datetime() {}
 
 		// datetime(const &other) : value(other.value) {} // copy constructor
-
 		// datetime(const time_t &other_t) : value(other_t) {} // copy constructor
-
 		// virtual ~datetime() {}
-
 		// // copy assign =
-
 		// // move assign =
-
 		// // operator +
-
 		// // operator -
-
 		// // operator ++
-
 		// // operator --
-
 		// void onchangeevent(); // callback lambda
 
 		void now();			
@@ -93,19 +84,19 @@ class datetime
 
 		bool isleapyear();
 
-		// bool samedatetime(const datetime &other) const;
-		// bool samedate(const datetime &other) const;
-		// bool sametime(const datetime &other) const;
-		// bool samehour(const datetime &other) const;
-		// bool sameminute(const datetime &other) const;
-		// bool samesecond(const datetime &other) const;
+		bool samedatetime(const datetime &other);
+		bool samedate(const datetime &other);
+		bool sametime(const datetime &other);
+		bool samehour(const datetime &other);
+		bool sameminute(const datetime &other);
+		bool samesecond(const datetime &other);
 
-		// int secondsapart(const datetime &other) const;
-		// int minutesapart(const datetime &other) const;
-		// int hoursapart(const datetime &other) const;
-		// int daysapart(const datetime &other) const;
+		int secondsapart(const datetime &other);
+		int minutesapart(const datetime &other);
+		int hoursapart(const datetime &other);
+		int daysapart(const datetime &other);
 
-		// void difference(const datetime &other, int &days, int &hours, int &minutes, int &seconds) const;
+		void difference(const datetime &other, int &days, int &hours, int &minutes, int &seconds);
 
 		int year() ;
 		int month() ;
@@ -116,14 +107,13 @@ class datetime
 		int minute() ;
 		int second() ;
 
-		// bool issunday() const;
-		// bool ismonday() const;
-		// bool istuesday() const;
-		// bool iswednesday() const;
-		// bool isthursday() const;
-		// bool isfriday() const;
-		// bool issaturday() const;
-
+		bool issunday() ;
+		bool ismonday() ;
+		bool istuesday();
+		bool iswednesday();
+		bool isthursday();
+		bool isfriday();
+		bool issaturday();
 };
 
 #endif
