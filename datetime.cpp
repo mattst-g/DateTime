@@ -2,7 +2,7 @@
     DateTime library for C++ wrapping the linux time_t
     as a class.
 
-    Fully Open Source no License, no warranty and no liabilites. 
+    Mozilla Public License 2.0
 
     Author Matt Saint-Gregory DEC 2021
 */
