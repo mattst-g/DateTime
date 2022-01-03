@@ -280,3 +280,60 @@ bool datetime::isleapyear()
     if (currenttime.yy % 100 != 0) return true;
     return (currenttime.yy % 400) == 0;
 }
+
+
+int datetime::year() 
+{
+    ymdhns currenttime;
+    decode(value, currenttime);    
+    return currenttime.yy;
+}
+
+int datetime::month() 
+{
+    ymdhns currenttime;
+    decode(value, currenttime);    
+    return currenttime.mm;
+}
+
+std::string datetime::monthstr() 
+{
+    ymdhns currenttime;
+    decode(value, currenttime);    
+    return MonthsOfYear[ currenttime.mm - 1];
+}
+
+std::string datetime::daystr() 
+{    
+    int d = dayofweek();
+    return DaysOfWeek[d];
+}
+
+int datetime::day() 
+{
+    ymdhns currenttime;
+    decode(value, currenttime);    
+    return currenttime.dd;
+}
+
+int datetime::hour() 
+{
+    ymdhns currenttime;
+    decode(value, currenttime);    
+    return currenttime.hh;
+}
+
+int datetime::minute() 
+{
+    ymdhns currenttime;
+    decode(value, currenttime);    
+    return currenttime.nn;
+}
+
+int datetime::second() 
+{
+    ymdhns currenttime;
+    decode(value, currenttime);    
+    return currenttime.ss;
+}
+

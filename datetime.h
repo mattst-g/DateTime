@@ -107,13 +107,14 @@ class datetime
 
 		// void difference(const datetime &other, int &days, int &hours, int &minutes, int &seconds) const;
 
-		// int year() const;
-		// int month() const;
-		// std::string month() const;
-		// int day() const;
-		// int hour() const;
-		// int minute() const;
-		// int second() const;
+		int year() ;
+		int month() ;
+		std::string monthstr() ;
+		std::string daystr() ;
+		int day() ;
+		int hour() ;
+		int minute() ;
+		int second() ;
 
 		// bool issunday() const;
 		// bool ismonday() const;
