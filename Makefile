@@ -1,5 +1,5 @@
 output: main.o datetime.o
-	g++ *.o -o main -Wall       
+	g++ datetime.o main.cpp -o main -Wall       
 
 
 datetime.o: datetime.cpp

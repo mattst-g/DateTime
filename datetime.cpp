@@ -10,6 +10,14 @@
 #include "datetime.h"
 
 
+datetime::datetime(const std::string createstring)
+{
+    fromstring(createstring);
+}
+
+datetime::datetime(const time_t init) : value(init) 
+{}
+
 // Private function
 // unpacks a time_t to a structure
 void datetime::decode(const time_t dt, ymdhns & decoded)

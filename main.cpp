@@ -1,25 +1,122 @@
+#define CATCH_CONFIG_MAIN 
+
+
 #include <iostream>
+#include "catch2.h"
+
+
 #include "datetime.h"
 
+const std::string source01 = "Wed Dec 29 20:28:23 2021";
+ 
 
-int main(int argc, char*argv[])
-{
-	datetime t;
+TEST_CASE("Define a time and test with string comparison", "[basic creation]") 
+{	
+	datetime test(source01);
+	std::string result = test.tostring();	
+	REQUIRE( result == source01 );
+}
 
-	std::cout << t.tostring() << "\n";
-
-	t.now();
-	std::cout << t.tostring() << "\n";
-
-	t.settime(2,30,40);
-	std::cout << t.tostring() << "\n";
-
-	t.yesterday();
-	std::cout << t.tostring() << "\n";
+TEST_CASE("Add seconds", "[basic creation]") 
+{	
+	datetime test(source01);	
 	
-	t.tomorrow();
-	std::cout << t.tostring() << "\n";
+	SECTION("Time and Date Adjustments")
+	{
+		test.addseconds(37);
+		std::string result = test.tostring();	
+		REQUIRE( result == "Wed Dec 29 20:29:00 2021" );		
+		//
+		test.addminutes(31);
+		result = test.tostring();	
+		REQUIRE( result == "Wed Dec 29 21:00:00 2021" );		
+		//
+		test.addhours(3);			
+		result = test.tostring();	
+		REQUIRE( result == "Thu Dec 30 00:00:00 2021" );				
+		//
+		test.adddays(-5);			
+		result = test.tostring();	
+		REQUIRE( result == "Sat Dec 25 00:00:00 2021" );				
+		//
+		test.addminutes(-30);			
+		result = test.tostring();	
+		REQUIRE( result == "Fri Dec 24 23:30:00 2021" );		
+		//
+		test.addhours(-10);			
+		result = test.tostring();	
+		REQUIRE( result == "Fri Dec 24 13:30:00 2021" );				
+		//
+		test.addseconds(-8);			
+		result = test.tostring();	
+		REQUIRE( result == "Fri Dec 24 13:29:52 2021" );				
+	}
+}
 
 
-	return 0;
+
+TEST_CASE("Same", "[comparison]") 
+{
+	datetime test(source01);	
+	datetime other(source01);	
+
+	REQUIRE(test.samedatetime(other));
+
+	other.addseconds();
+	REQUIRE(!test.samedatetime(other));
+	REQUIRE(test.samedate(other));
+	REQUIRE(test.samehour(other));
+	REQUIRE(test.sameminute(other));
+	REQUIRE(!test.samesecond(other));
+	other.addseconds(-1);
+
+	other.addminutes();
+	REQUIRE(!test.samedatetime(other));
+	REQUIRE(test.samedate(other));
+	REQUIRE(test.samehour(other));
+	REQUIRE(!test.sameminute(other));
+	REQUIRE(test.samesecond(other));
+	other.addminutes(-1);
+	
+	other.addhours();
+	REQUIRE(!test.samedatetime(other));
+	REQUIRE(test.samedate(other));
+	REQUIRE(!test.samehour(other));
+	REQUIRE(test.sameminute(other));
+	REQUIRE(test.samesecond(other));
+	other.addhours(-1);
+
+	other.adddays();
+	REQUIRE(!test.samedatetime(other));
+	REQUIRE(test.sametime(other));
+	REQUIRE(test.samehour(other));
+	REQUIRE(test.sameminute(other));
+	REQUIRE(test.samesecond(other));
+	other.adddays(-1);
+
+
+	REQUIRE(test.samedatetime(other));
+}
+
+
+
+
+TEST_CASE("Appart", "[comparison]") 
+{
+	datetime test(source01);	
+	datetime other(source01);	
+
+	REQUIRE( test.secondsapart(other) == 0);
+	other.addseconds(1234);
+	REQUIRE( test.secondsapart(other) == 1234);
+	other.addseconds(-2468);
+	REQUIRE( test.secondsapart(other) == -1234);
+
+	REQUIRE( test.daysapart(other) == 0);
+	other.addseconds(1234);
+
+	other.addminutes(90);
+	REQUIRE( test.minutesapart(other) == 90);
+	other.addseconds( 60 * 60 * 24 * 5);
+	REQUIRE( test.daysapart(other) == 5);
 }

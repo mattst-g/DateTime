@@ -55,6 +55,10 @@ class datetime
     {
     }
 
+    datetime(const std::string createstring);
+
+    datetime(const time_t init);
+
     // datetime(const &other) : value(other.value) {} // copy constructor
     // datetime(const time_t &other_t) : value(other_t) {} // copy constructor
     // virtual ~datetime() {}
