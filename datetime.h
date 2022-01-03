@@ -52,25 +52,23 @@ class datetime
 
   public:
 
-    datetime()
-    {
-    }
-
+    datetime() {}
     datetime(const std::string createstring);
     datetime(const std::string createstring, funcfromstring func);
     datetime(const time_t init);  
-    datetime(const datetime &other) : value(other.value) {} // copy constructor
-    
-    datetime(datetime&& other) : value(std::move(other.value)) {}
+    datetime(const datetime &other) : value(other.value) {} // copy constructor    
+    datetime(datetime&& other) : value(std::move(other.value)) {} // move constructor
 
+    // copy
     datetime& operator=(const datetime& other);
+
+    // move
 	datetime& operator=(const datetime&& other);
 
 
     virtual ~datetime() {}
 
     // comparison operators
-
     bool operator ==(const datetime& other) const;
     bool operator <(const datetime& other) const;
     bool operator >(const datetime& other) const;
@@ -78,7 +76,7 @@ class datetime
 	bool operator <=(const datetime& other) const;
 	bool operator !=(const datetime& other) const;
     
-    
+    // add and sub operators
 	datetime& operator+ (const datetime& other);	
 	datetime& operator+= (const datetime& other);	
 	datetime& operator- (const datetime& other);
@@ -131,6 +129,9 @@ class datetime
     int daysapart(const datetime & other);
 
     void difference(const datetime & other, int &days, int &hours, int &minutes, int &seconds);
+
+    int secondsaftermindnight();
+    int minutesaftermindnight();
 
     int year();
     int month();

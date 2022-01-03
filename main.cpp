@@ -165,5 +165,4 @@ TEST_CASE("Operators" ,"[comparison]")
 	other += shift2;
 	REQUIRE( test == other);
 
-
 }

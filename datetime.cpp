@@ -38,7 +38,6 @@ datetime& datetime::operator=(const datetime&& other)
     return *this;
 }
 
-
 bool datetime::operator ==(const datetime& other) const
 {
     return value == other.value;
@@ -126,7 +125,6 @@ void datetime::now()
 {
     value = time(nullptr);
 }
-
 
 // sets the value to yesterday date but 
 // maintains the time portion
@@ -643,6 +641,22 @@ int datetime::daysapart(const datetime & other)
     int v = other.value - value;
 
     return v != 0 ? v / SecondsPerDay : 0;
+}
+
+// seconds since midnight
+int datetime::secondsaftermindnight()
+{
+    datetime midnight(value);  // load with current value
+    midnight.midnight(); // set time to 00:00:00
+    return midnight.secondsapart(*this);
+}
+
+// minutes since midnight
+int datetime::minutesaftermindnight()
+{
+    datetime midnight(value);  // load with current value
+    midnight.midnight(); // set time to 00:00:00
+    return midnight.minutesapart(*this);
 }
 
 // returns the difference with this and another time in days, hours, minutes and seconds
