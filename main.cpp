@@ -120,3 +120,50 @@ TEST_CASE("Appart", "[comparison]")
 	other.addseconds( 60 * 60 * 24 * 5);
 	REQUIRE( test.daysapart(other) == 5);
 }
+
+TEST_CASE("Operators" ,"[comparison]")
+{
+	datetime test(source01);	
+	datetime other;
+	datetime diffother;
+	other = test;
+	diffother = test;
+
+
+	REQUIRE( test.samedatetime(other) );
+
+	REQUIRE( test == other );
+
+	diffother.addseconds(100);
+
+	REQUIRE( !test.samedatetime(diffother) );
+
+	REQUIRE( test != diffother );
+
+	REQUIRE( test < diffother );
+	REQUIRE( test <= diffother );
+	REQUIRE( test <= other );
+
+	REQUIRE( diffother > test );
+	REQUIRE( diffother >= test );
+	REQUIRE( other >= test );
+
+	datetime shift1(60); // 60 seconds 
+	datetime shift2(-30); // -30 seconds 
+
+	other = test;
+
+	test.addseconds(60);
+
+	REQUIRE( test != other);
+
+	other += shift1;
+	REQUIRE( test == other);
+
+	other = test;	
+	test.addseconds(-30);
+	other += shift2;
+	REQUIRE( test == other);
+
+
+}

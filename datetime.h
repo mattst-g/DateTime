@@ -39,6 +39,7 @@ const std::string MonthsOfYear[] = { "January", "February", "March", "April", "M
 };
 
 typedef void (*funcfromstring)(const std::string datetimestring, ymdhns & decoded);
+typedef void (*functostring)(const int year,const int month,const int day, const int hour, const int minute,const int second);
 
 class datetime
 {
@@ -56,30 +57,47 @@ class datetime
     }
 
     datetime(const std::string createstring);
+    datetime(const std::string createstring, funcfromstring func);
+    datetime(const time_t init);  
+    datetime(const datetime &other) : value(other.value) {} // copy constructor
+    
+    datetime(datetime&& other) : value(std::move(other.value)) {}
 
-    datetime(const time_t init);
+    datetime& operator=(const datetime& other);
+	datetime& operator=(const datetime&& other);
 
-    // datetime(const &other) : value(other.value) {} // copy constructor
-    // datetime(const time_t &other_t) : value(other_t) {} // copy constructor
-    // virtual ~datetime() {}
-    // // copy assign =
-    // // move assign =
-    // // operator +
-    // // operator -
-    // // operator ++
-    // // operator --
-    // void onchangeevent(); // callback lambda
+
+    virtual ~datetime() {}
+
+    // comparison operators
+
+    bool operator ==(const datetime& other) const;
+    bool operator <(const datetime& other) const;
+    bool operator >(const datetime& other) const;
+	bool operator >=(const datetime& other) const;
+	bool operator <=(const datetime& other) const;
+	bool operator !=(const datetime& other) const;
+    
+    
+	datetime& operator+ (const datetime& other);	
+	datetime& operator+= (const datetime& other);	
+	datetime& operator- (const datetime& other);
+	datetime& operator-= (const datetime& other);
+	
+
 
     void now();
     void yesterday();
     void tomorrow();
-
-
     void midnight();
     void noon();
     void janfirst(int year = 0);
+    void setfirstdayofmonth();
+    void setlastdayofmonth();
+
 
     std::string tostring();
+    std::string tostring(functostring func);
     void fromstring(const std::string datetimestring);
     void fromstring(const std::string datetimestring, funcfromstring func); // with lambda adapter
 
@@ -97,10 +115,7 @@ class datetime
     void addminutes(int count = 1);
     void addhours(int count = 1);
     void adddays(int count = 1);
-
-    void setfirstdayofmonth();
-    void setlastdayofmonth();
-
+    
     bool isleapyear();
 
     bool samedatetime(const datetime & other);
@@ -133,6 +148,10 @@ class datetime
     bool isthursday();
     bool isfriday();
     bool issaturday();
+
+    time_t get() const;
+    void set(time_t tt);
 };
 
 #endif
+

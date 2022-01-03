@@ -9,14 +9,89 @@
 
 #include "datetime.h"
 
-
+// constructor with string in linux format
 datetime::datetime(const std::string createstring)
 {
     fromstring(createstring);
 }
 
+// constructor with string and function to translate string
+datetime::datetime(const std::string createstring, funcfromstring func)
+{
+    fromstring(createstring, func);
+}
+
+// constructor with time_t
 datetime::datetime(const time_t init) : value(init) 
 {}
+
+
+datetime& datetime::operator=(const datetime& other)
+{
+    value = other.value;
+    return *this;
+}
+
+datetime& datetime::operator=(const datetime&& other)
+{
+    value = std::move(other.value);
+    return *this;
+}
+
+
+bool datetime::operator ==(const datetime& other) const
+{
+    return value == other.value;
+}
+
+bool datetime::operator <(const datetime& other) const
+{
+    return value < other.value;
+}
+
+bool datetime::operator >(const datetime& other) const
+{
+    return value > other.value;
+}
+
+bool datetime::operator >=(const datetime& other) const
+{
+    return value >= other.value;
+}
+
+bool datetime::operator <=(const datetime& other) const
+{
+    return value <= other.value;
+}
+
+bool datetime::operator !=(const datetime& other) const
+{
+    return value != other.value;
+}
+
+datetime& datetime::operator+ (const datetime& other)
+{
+    value = value + other.value;
+    return *this;
+}
+
+datetime& datetime::operator- (const datetime& other)
+{
+    value = value - other.value;
+    return *this;
+}
+
+datetime& datetime::operator+= (const datetime& other)
+{
+    value = value + other.value;
+    return *this;
+}
+
+datetime& datetime::operator-= (const datetime& other)
+{
+    value = value - other.value;
+    return *this;
+}
 
 // Private function
 // unpacks a time_t to a structure
@@ -599,4 +674,17 @@ void datetime::difference(const datetime & other, int &days, int &hours, int &mi
     }
 
     seconds = sec;
+}
+
+
+// get the time_t value
+time_t datetime::get() const
+{
+    return value;
+}
+
+// set the time_t value
+void datetime::set(time_t tt)
+{
+    value = tt;
 }
